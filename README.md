@@ -24,13 +24,13 @@ Faceforensics
 
 -fake_videos_txt 从fake_videos中提取出的landmarks
 
--true_videos_actor
+-real_videos_actor
 
--true_videos_actor_txt
+-real_videos_actor_txt
 
--true_videos_youtube
+-real_videos_youtube
 
--true_videos_youtube_txt
+-real_videos_youtube_txt
 
 -calib_utils.py
 
