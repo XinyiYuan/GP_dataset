@@ -24,8 +24,8 @@ def detect_track(input_path, video, use_visualization, visualize_path):
 def main():
     
     input_path = "./fake_videos/"
-    # input_path = "./true_videos_actor"
-    # input_path = "./true_videos_youtube"
+    # input_path = "./real_videos_actor"
+    # input_path = "./real_videos_youtube"
     
     output_path = "./fake_videos_txt/"
     if not os.path.exists(output_path):
