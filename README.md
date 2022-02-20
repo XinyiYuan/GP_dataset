@@ -12,6 +12,18 @@ Faceforensics
 
 通过DF伪造技术生成的约一千个视频（伪造）
 
+
+
+2022.2.1 update：
+
+Faceforensics已经做通关了，换个赛道做Celeb-DF
+
+
+
+Celeb-DF
+
+Celeb-DF-v1和Celeb-DF-v2两个版本
+
 ## 提取landmarks
 
 使用mediapipe方法提取人脸三维特征（468维）

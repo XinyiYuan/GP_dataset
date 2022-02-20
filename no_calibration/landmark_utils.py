@@ -137,4 +137,58 @@ def detect_frames_track(frames, fps, use_visualization, visualize_path, video):
     # TODO
     
     # return locations
+    """
+    Pre-process:
+    To detect the original results,
+    and normalize each face to a certain width, 
+    also its corresponding landmarks locations and 
+    scale parameter.
+    """
+    face_size_normalized = 400
+    faces = []
+    locations = []
+    shapes_origin = []
+    shapes_para = []  # Use to recover the shape in whole frame. ([x1, y1, scale_shape])
+    face_size = 0
+    skipped = 0
+
+    """
+    Use single frame to detect face on Dlib (CPU)
+    """
+    # ----------------------------------------------------------------------------#
+
+    print("Detecting:")
+    for i in tqdm(range(frames_num), ncols=90):
+    # for i in range(frames_num):
+        frame = frames[i]
+        face, shape = predict_single_frame(frame)
+        if face == 0:
+            if len(shapes_origin) == 0:
+                skipped += 1
+                # print("Skipped", skipped, "Frame_num", frames_num)
+                continue
+            shape = shapes_origin[i-1-skipped]
+
+        face, face_size = shape_to_face(shape, frame_width, frame_height, 1.2)
+        faceFrame = frame[face[1]: face[3],
+                            face[0]:face[2]]
+        if face_size < face_size_normalized:
+            inter_para = cv2.INTER_CUBIC
+        else:
+            inter_para = cv2.INTER_AREA
+        face_norm = cv2.resize(faceFrame, (face_size_normalized, face_size_normalized), interpolation=inter_para)
+        scale_shape = face_size_normalized/face_size
+        # print(shape.shape) # (68,2)
+        # print(np.array([face[0], face[1]]).shape) # (2, )
+        shape_norm = (shape-np.array([face[0], face[1]])) * scale_shape
+        # print(shape_norm.shape) # numpy.ndarray
+        # print(type(shape_norm)) # (68,2)
+        # faces.append(face_norm)
+        # shapes_para.append([face[0], face[1], scale_shape])
+        # shapes_origin.append(shape)
+        # print(type(shape)) # numpy.ndarray
+        shape_norm = shape_norm.ravel()
+        shape_norm = shape_norm.tolist()
+        locations.append(shape_norm)
     
+    return locations
